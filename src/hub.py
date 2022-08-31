@@ -28,9 +28,9 @@ def on_message(client, userdata, message):
 # Publishes the user's request to lock/unlock to the MQTT broker. If the input is invalid, it asks the user to enter a valid option or allows them to exit.
 def user_action(user_input):
     if user_input.lower() == "lock":
-        client.publish("LOCK", "Lock") #Publishes 'Lock' to the MQTT broker topic 'LOCK'
+        client.publish("LOCK", "Lock", qos=2) #Publishes 'Lock' to the MQTT broker topic 'LOCK'
     elif user_input.lower() == "unlock":
-        client.publish("LOCK", "Unlock")
+        client.publish("LOCK", "Unlock", qos=2)
     elif user_input.lower() == "exit":
         exit()
     else:

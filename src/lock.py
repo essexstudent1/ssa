@@ -21,7 +21,8 @@ def on_message(client, userdata, message):
         print ("The door is unlocked")
 
 # MQTT broker location online
-mqttBroker ="mqtt.eclipseprojects.io"
+#mqttBroker ="mqtt.eclipseprojects.io"
+mqttBroker ="0.0.0.0"
 
 #Setting up a new client to connect to the broker to subscribe to the temperature and connecting this client to the broker
 client = mqtt.Client("Hub")

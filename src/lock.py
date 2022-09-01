@@ -13,12 +13,14 @@ class SmartLock:
         # insert code here to interface with hardware and secure the lock
         # ideally we would have error handling here in case the lock fails to secure. we are assuming the locking mechanism always works.
         self.status = 1     # status = 1 = locked
+        client.publish("LOCK_STATUS", "Locked", qos=2)
         print ("The door is locked")
         
     def unlock(self):
         # insert code here to interface with hardware and open the lock
         # ideally we would have error handling here in case the lock fails to open. we are assuming the unlocking mechanism always works.
         self.status = 0     # status = 0 = unlocked
+        client.publish("LOCK_STATUS", "Unlocked", qos=2)
         print ("The door is unlocked")
 
 # Advises the user whether they are connected to the MQTT broker or not.
@@ -33,10 +35,10 @@ def on_connect(client, userdata, flags, rc):
 # and sends the response back to the 'LOCK_STATUS' topic on the MQTT broker
 def on_message(client, userdata, message):
     if message.payload.decode() == "Lock":
-        client.publish("LOCK_STATUS", "Locked", qos=2)
+        #client.publish("LOCK_STATUS", "Locked", qos=2)
         MyLock.lock()
     elif message.payload.decode() == "Unlock":
-        client.publish("LOCK_STATUS", "Unlocked", qos=2)
+        #client.publish("LOCK_STATUS", "Unlocked", qos=2)
         MyLock.unlock()
     else:
         print("Unknown command recieved")

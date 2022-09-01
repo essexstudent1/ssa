@@ -35,10 +35,8 @@ def on_connect(client, userdata, flags, rc):
 # and sends the response back to the 'LOCK_STATUS' topic on the MQTT broker
 def on_message(client, userdata, message):
     if message.payload.decode() == "Lock":
-        #client.publish("LOCK_STATUS", "Locked", qos=2)
         MyLock.lock()
     elif message.payload.decode() == "Unlock":
-        #client.publish("LOCK_STATUS", "Unlocked", qos=2)
         MyLock.unlock()
     else:
         print("Unknown command recieved")

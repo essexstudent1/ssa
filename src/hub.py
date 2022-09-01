@@ -39,30 +39,11 @@ def user_action(user_input):
         action = input()
         user_action(action)
 
-#def broker_login():
-#    with open("passwordfile.txt") as f:
-#        lines = f.readlines()
-#        username = lines[0].strip()
-#        password = lines[1].strip()
-#        entered_username = input("Please enter your username: ")
-#        if entered_username.lower() == username.lower():
-#            entered_password = input("Please enter your password: ")
-#            hashed_password = hashlib.sha256(entered_password.encode('utf-8')).hexdigest()
-#            if hashed_password == password:
-#                return True
-#            else:
-#                print ("Your access to the MQTT broker has been denied")
-#                exit()
-#        else:
-#            print ("Your access to the MQTT broker has been denied")
-#            exit()
-
 # asks user for their input, calls the function to verify the user input
 def user_interface():
     if wake_word == 'Wake':
         print ("What would you like to do?\n-Unlock\n-Lock\n-Exit\nPlease type your request below\n>>>")
         action = input()
-#        broker_login()
         user_action(action)
     else:
        print ("You do not have access")

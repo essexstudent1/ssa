@@ -35,7 +35,7 @@ def on_message(client, userdata, message):
     if message.payload.decode() == "Lock":
         client.publish("LOCK_STATUS", "Locked", qos=2)
         MyLock.lock()
-    elseif message.payload.decode() == "Unlock":
+    elif message.payload.decode() == "Unlock":
         client.publish("LOCK_STATUS", "Unlocked", qos=2)
         MyLock.unlock()
     else:

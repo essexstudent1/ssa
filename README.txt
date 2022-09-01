@@ -7,4 +7,10 @@ How to use this demo in Codio:
     allow_anonymous false
     password_file /etc/mosquitto/passwd
   b) Save and close the file
-
+5) Edit the password file: sudo nano /etc/mosquitto/passwd
+  a) Paste in the following:
+    hub:j6i3dd009153ef76
+    lock:k3dd651mniofd90q
+   b) Save and close the file
+6) Encrypt the passwords: sudo mosquitto_passwd -U /etc/mosquitto/passwd
+7) Restart mosquitto: sudo systemctl restart mosquitto

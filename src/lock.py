@@ -49,7 +49,7 @@ MyLock = SmartLock()
 mqttBroker ="0.0.0.0"
 
 #Setting up a new client to connect to the broker to subscribe to the lock status and connecting this client to the broker
-client = mqtt.Client("Hub")
+client = mqtt.Client("Lock-984323")
 client.username_pw_set("lock", password="k3dd651mniofd90q")
 client.connect(mqttBroker)
 

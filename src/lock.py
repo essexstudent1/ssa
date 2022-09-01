@@ -2,6 +2,19 @@
 MQTT broker"""
 import paho.mqtt.client as mqtt
 
+# Define the Smartlock class
+class SmartLock:
+    def __init__(self, status):
+        self.status = status
+    
+    def lock(self):
+        # insert code here to interface with hardware and secure the lock
+        self.status = 1     # status = 1 = locked
+        
+    def unlock(self):
+        # insert code here to interface with hardware and open the lock
+        self.status = 0     # status = 0 = unlocked
+
 # Advises the user whether they are connected to the MQTT broker or not.
 def on_connect(client, userdata, flags, rc):
     if rc == 0:

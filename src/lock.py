@@ -32,9 +32,10 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     if message.payload.decode() == "Lock":
         client.publish("LOCK_STATUS", "Locked", qos=2)
-        
+        MyLock.lock()
     else:
         client.publish("LOCK_STATUS", "Unlocked", qos=2)
+        MyLock.unlock()
 
 # Initialize the lock, setting the status to unlocked. Ideally, in a real lock we would query the hardware 
 # to determine whether it is locked or unlocked on itialization

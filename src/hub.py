@@ -68,7 +68,7 @@ def user_interface():
        print ("You do not have access")
        
 # Setting up a new client and telling it to connect to the broker
-client = mqtt.Client("Lock")
+client = mqtt.Client("Hub-984323")
 client.on_connect = on_connect
 client.on_message=on_message
 client.username_pw_set("hub", password="j6i3dd009153ef76")

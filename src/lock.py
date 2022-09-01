@@ -24,7 +24,7 @@ def on_message(client, userdata, message):
 #mqttBroker ="mqtt.eclipseprojects.io"
 mqttBroker ="0.0.0.0"
 
-#Setting up a new client to connect to the broker to subscribe to the temperature and connecting this client to the broker
+#Setting up a new client to connect to the broker to subscribe to the lock status and connecting this client to the broker
 client = mqtt.Client("Hub")
 client.username_pw_set("lock", password="k3dd651mniofd90q")
 client.connect(mqttBroker)

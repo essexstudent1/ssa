@@ -4,8 +4,10 @@ import paho.mqtt.client as mqtt
 
 # Define the Smartlock class
 class SmartLock:
-    def __init__(self, status):
-        self.status = status
+    def __init__(self):
+        # insert code here to interface with hardware and read the initial status of the lock.
+        # since we don't have real hardware, we are going to assume that the lock always initializes to unlocked
+        self.status = 0
     
     def lock(self):
         # insert code here to interface with hardware and secure the lock
@@ -40,9 +42,8 @@ def on_message(client, userdata, message):
         print("Unknown command recieved")
         
 
-# Initialize the lock, setting the status to unlocked. Ideally, in a real lock we would query the hardware 
-# to determine whether it is locked or unlocked on itialization
-MyLock = SmartLock(0)        
+# Initialize the lock
+MyLock = SmartLock()        
         
 # MQTT broker location, currently set to localhost
 mqttBroker ="0.0.0.0"

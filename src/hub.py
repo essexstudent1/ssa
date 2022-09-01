@@ -6,7 +6,8 @@ import hashlib
 # non hashed password is SECUREarchitecture2022 for testing
 
 # Identifying online broker location - Eclipse mosquito
-mqttBroker ="mqtt.eclipseprojects.io"
+#mqttBroker ="mqtt.eclipseprojects.io"
+mqttBroker ="0.0.0.0"
 
 # Advises the user whether they are connected to the MQTT broker or not.
 def on_connect(client, userdata, flags, rc):

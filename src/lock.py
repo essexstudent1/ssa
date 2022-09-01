@@ -9,11 +9,15 @@ class SmartLock:
     
     def lock(self):
         # insert code here to interface with hardware and secure the lock
+        # ideally we would have error handling here in case the lock fails to secure. we are assuming the locking mechanism always works.
         self.status = 1     # status = 1 = locked
+        print ("The door is locked")
         
     def unlock(self):
         # insert code here to interface with hardware and open the lock
+        # ideally we would have error handling here in case the lock fails to open. we are assuming the unlocking mechanism always works.
         self.status = 0     # status = 0 = unlocked
+        print ("The door is unlocked")
 
 # Advises the user whether they are connected to the MQTT broker or not.
 def on_connect(client, userdata, flags, rc):
@@ -28,13 +32,15 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     if message.payload.decode() == "Lock":
         client.publish("LOCK_STATUS", "Locked", qos=2)
-        print ("The door is locked")
+        
     else:
         client.publish("LOCK_STATUS", "Unlocked", qos=2)
-        print ("The door is unlocked")
 
-# MQTT broker location online
-#mqttBroker ="mqtt.eclipseprojects.io"
+# Initialize the lock, setting the status to unlocked. Ideally, in a real lock we would query the hardware 
+# to determine whether it is locked or unlocked on itialization
+MyLock = SmartLock(0)        
+        
+# MQTT broker location, currently set to localhost
 mqttBroker ="0.0.0.0"
 
 #Setting up a new client to connect to the broker to subscribe to the lock status and connecting this client to the broker

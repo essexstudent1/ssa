@@ -2,6 +2,9 @@
 MQTT broker"""
 import paho.mqtt.client as mqtt
 
+from threading import Thread
+from queue import Queue
+
 # Define the Smartlock class
 class SmartLock:
     def __init__(self):
@@ -34,16 +37,30 @@ def on_connect(client, userdata, flags, rc):
 # Locks the door when it receives a command from the LOCK topic on the MQTT broker to which the controller hub publishes
 # and sends the response back to the 'LOCK_STATUS' topic on the MQTT broker
 def on_message(client, userdata, message):
-    if message.payload.decode() == "Lock":
-        MyLock.lock()
-    elif message.payload.decode() == "Unlock":
-        MyLock.unlock()
-    else:
-        print("Unknown command recieved")
+    MsgQ.put(message.payload.decode())
+    
+# Define the consumer thread to read the message queue and call the appropriate smartlock function       
+def consumer():
+    while True:
+        msg = MsgQ.get()
+        if msg == "Lock":
+            MyLock.lock()
+        elif msg == "Unlock":
+            MyLock.unlock()
+        else:
+            print("Unknown command recieved")
+        MsgQ.task_done()
         
-
 # Initialize the lock
-MyLock = SmartLock()        
+MyLock = SmartLock()
+
+# Set up message queue
+MsgQ = Queue()
+
+# Start the consumer thread
+t = Thread(target=consumer)
+t.daemon = True
+t.start()
         
 # MQTT broker location, currently set to localhost
 mqttBroker ="0.0.0.0"

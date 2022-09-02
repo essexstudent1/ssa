@@ -1,4 +1,4 @@
-How to install and configure the mosquitto MQTT server required for this demo in Codio or locally on a Linux system:
+How to install and configure the mosquitto MQTT services required for this demo in Codio or locally on a Linux system:
 1) Install mosquitto server: sudo apt-get install mosquitto
 2) Install mosquitto clients: sudo apt install mosquitto-clients
 3) Create a new mosquitto server config file: sudo nano /etc/mosquitto/conf.d/my.conf

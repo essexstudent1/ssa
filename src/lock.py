@@ -34,8 +34,7 @@ def on_connect(client, userdata, flags, rc):
     else:
         print("Failed to connect, return code %d\n", rc)
 
-# Locks the door when it receives a command from the LOCK topic on the MQTT broker to which the controller hub publishes
-# and sends the response back to the 'LOCK_STATUS' topic on the MQTT broker
+# Producer activity - reads the data from the MQTT server and puts it into the message queue to be processed by the consumer thread
 def on_message(client, userdata, message):
     MsgQ.put(message.payload.decode())
     

@@ -73,4 +73,5 @@ client.connect(mqttBroker)
 client.on_connect = on_connect
 client.on_message=on_message
 
+# Producer thread loops continually looking for messages from the MQTT server
 client.loop_forever()

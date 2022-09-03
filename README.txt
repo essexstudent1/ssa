@@ -13,3 +13,8 @@ How to install and configure the mosquitto MQTT services required for this demo 
    b) Save and close the file
 5) Encrypt the passwords: sudo mosquitto_passwd -U /etc/mosquitto/passwd
 6) Restart mosquitto: sudo systemctl restart mosquitto
+
+
+
+Differences between the design and final applications:
+

@@ -26,6 +26,14 @@ class SmartLock:
         client.publish("LOCK_STATUS", "Unlocked", qos=2)
         print ("The door is unlocked")
 
+# Pulls the broker login details from a password file
+def broker_auth():
+    with open("lock_passwordfile.txt") as f:
+        lines = f.readlines()
+        user = lines[0].strip()
+        passwd = lines[1].strip()
+    return user, passwd
+
 # Advises the user whether they are connected to the MQTT broker or not.
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -66,7 +74,7 @@ mqttBroker ="0.0.0.0"
 
 #Setting up a new client to connect to the broker to subscribe to the lock status and connecting this client to the broker
 client = mqtt.Client("Lock-984323")
-client.username_pw_set("lock", password="k3dd651mniofd90q")
+client.username_pw_set(broker_auth()[0], broker_auth()[1])
 client.connect(mqttBroker)
 
 #The topic in the MQTT broker to subscribe to

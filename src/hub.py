@@ -1,10 +1,40 @@
 """The controller hub script which connects to the MQTT broker and publishes the user's input to the 'LOCK' topic. It also subscribes to the 'LOCK_STATUS' topic
 on the MQTT broker which is populated by the smart lock"""
 import paho.mqtt.client as mqtt
+from cryptography.fernet import Fernet
 import hashlib, os
 
 from threading import Thread
 from queue import Queue
+
+class Encryption:
+    def __init__(self):
+        self.file = "wake_word.txt"
+        self.key_file = "filekey.key"
+        
+    def generate_key(self):
+        key = Fernet.generate_key()
+        with open(self.key_file, "wb") as filekey:
+            filekey.write(key)
+        
+    def encrypt_wake_word(self):
+        with open(self.key_file, "rb") as filekey:
+            key = filekey.read()
+        fernet = Fernet(key)
+        with open(self.file, "rb") as file:
+            original_file = file.read()
+        encrypted = fernet.encrypt(original_file)
+        with open(self.file, "wb") as encrypted_file:
+            encrypted_file.write(encrypted)
+            
+    def decrypt_wake_word(self):
+        with open(self.key_file, "rb") as filekey:
+            key = filekey.read()
+        fernet = Fernet(key)
+        with open(self.file, "rb") as encrypted_file:
+            encrypted = encrypted_file.read()
+        decrypted = fernet.decrypt(encrypted).decode("utf-8")
+        return decrypted
 
 class WakeUpHub:
     def __init__(self):
@@ -17,18 +47,23 @@ class WakeUpHub:
             return True
     
     def auth_wake_word(self, word):
-        with open(self.file) as f:
-            lines = f.readlines()
-            if word == lines[0].strip():
-                return True
-            else:
-                return False
+        encr = Encryption()
+        stored_word = encr.decrypt_wake_word()
+        #with open(self.file) as f:
+            #lines = f.readlines()
+        if word == stored_word:
+            return True
+        else:
+            return False
     
     def create_wake_word(self):
         with open(self.file, "w") as f:
             wake_word = input ("Please create a custom wake word by entering it below\n>>>> ")
-            f.write (wake_word)
+            encr = Encryption()
+            encr.generate_key()
+            f.write(wake_word)
             f.close()
+            encr.encrypt_wake_word()
     
     def wake_up(self):
         if os.stat(self.file).st_size == 0:

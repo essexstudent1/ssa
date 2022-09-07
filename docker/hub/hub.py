@@ -8,6 +8,7 @@ from threading import Thread
 from queue import Queue
 import time
 
+# Define the encryption class to encrypt and decrypt the hub wakeup password
 class Encryption:
     def __init__(self):
         self.file = "wake_word.txt"
@@ -37,7 +38,7 @@ class Encryption:
         decrypted = fernet.decrypt(encrypted).decode("utf-8")
         return decrypted
 
-
+# Define the WakeUpHub class control the hub wake functions
 class WakeUpHub:
     def __init__(self):
         self.file = "wake_word.txt"
@@ -51,8 +52,6 @@ class WakeUpHub:
     def auth_wake_word(self, word):
         encr = Encryption()
         stored_word = encr.decrypt_wake_word()
-        # with open(self.file) as f:
-        # lines = f.readlines()
         if word == stored_word:
             return True
         else:
@@ -89,7 +88,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     MsgQ.put(message.payload.decode())
 
-
+# Define the consumer thread to read messages from the message queue
 def consumer():
     while True:
         msg = MsgQ.get()

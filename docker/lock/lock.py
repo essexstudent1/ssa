@@ -38,12 +38,12 @@ def broker_auth():
 
 
 # Advises the user whether they are connected to the MQTT broker or not.
-def on_connect(client, userdata, flags, rc):
+def on_connect(client, userdata, flags, r_c):
     if rc == 0:
         print("Connected to MQTT Broker")
         client.subscribe("LOCK", qos=2)
     else:
-        print("Failed to connect, return code %d\n", rc)
+        print("Failed to connect, return code %d\n", r_c)
 
 
 # Producer activity - reads the data from the MQTT server and puts it into the message queue to be processed by the consumer thread
@@ -76,12 +76,12 @@ t.daemon = True
 t.start()
 
 # MQTT broker location, currently set to localhost
-mqttBroker = "mqtt.aliahmed.app"
+MQTT_BROKER = "mqtt.aliahmed.app"
 
 # Setting up a new client to connect to the broker to subscribe to the lock status and connecting this client to the broker
 client = mqtt.Client("Lock-984323")
 client.username_pw_set(broker_auth()[0], broker_auth()[1])
-client.connect(mqttBroker)
+client.connect(MQTT_BROKER)
 
 # The topic in the MQTT broker to subscribe to
 client.on_connect = on_connect

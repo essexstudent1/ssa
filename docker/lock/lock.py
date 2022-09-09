@@ -39,7 +39,7 @@ def broker_auth():
 
 # Advises the user whether they are connected to the MQTT broker or not.
 def on_connect(client, userdata, flags, r_c):
-    if rc == 0:
+    if r_c == 0:
         print("Connected to MQTT Broker")
         client.subscribe("LOCK", qos=2)
     else:

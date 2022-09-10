@@ -66,8 +66,7 @@ class WakeUpHub:
         """Asks the user to input wake word, encrypts it and stores it
         in a file"""
         with open(self.file, "w") as f:
-            wake_word = input("Please create a custom wake",
-                              "word by entering it below\n>>>> ")
+            wake_word = input("Please create a custom wake word by entering it below\n>>>> ")
             encr = Encryption()
             encr.generate_key()
             f.write(wake_word)
@@ -157,6 +156,12 @@ def user_interface(wakeuptest):
         print("You do not have access")
         sys.exit()
 
+# Generates a unique number using current date/time and random number
+def unique_number():
+    from datetime import datetime
+    import random
+    n1 = datetime.now()
+    return n1.strftime("%Y%m%d%H%M%S") + str(random.randint(0,9999))
 
 # Set up message queue
 MsgQ = Queue()
@@ -168,7 +173,7 @@ t.start()
 
 MQTT_BROKER = "mqtt.aliahmed.app"   # Identifies the MQTT broker location
 
-client = mqtt.Client("Hub-984323")  # Sets up the new client
+client = mqtt.Client("Hub-984323" + unique_number())  # Sets up the new client
 client.username_pw_set(broker_auth()[0], broker_auth()[1])   # Pass client credentials to MQTT broker
 client.connect(MQTT_BROKER)  # Tells the client to connect to the broker
 
@@ -190,3 +195,4 @@ while True:
         client.loop_start()
 
 client.loop_forever()
+

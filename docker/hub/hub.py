@@ -4,9 +4,11 @@ topic on the MQTT broker which is populated by the smart lock"""
 import time
 import os
 import sys
+import random
 from threading import Thread
 from queue import Queue
 from cryptography.fernet import Fernet
+from datetime import datetime
 import paho.mqtt.client as mqtt
 
 
@@ -156,10 +158,8 @@ def user_interface(wakeuptest):
         print("You do not have access")
         sys.exit()
 
-# Generates a unique number using current date/time and random number
 def unique_number():
-    from datetime import datetime
-    import random
+    """Generates a unique number using current date/time and random number"""
     n1 = datetime.now()
     return n1.strftime("%Y%m%d%H%M%S") + str(random.randint(0,9999))
 
@@ -195,4 +195,3 @@ while True:
         client.loop_start()
 
 client.loop_forever()
-

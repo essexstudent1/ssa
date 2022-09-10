@@ -63,6 +63,12 @@ def consumer():
             print("Unknown command recieved")
         MsgQ.task_done()
 
+# Generates a unique number using current date/time and random number
+def unique_number():
+    from datetime import datetime
+    import random
+    n1 = datetime.now()
+    return n1.strftime("%Y%m%d%H%M%S") + str(random.randint(0,9999))
 
 # Initialize the lock
 MyLock = SmartLock()
@@ -79,7 +85,7 @@ t.start()
 MQTT_BROKER = "mqtt.aliahmed.app"
 
 # Setting up a new client to connect to the broker to subscribe to the lock status and connecting this client to the broker
-client = mqtt.Client("Lock-984323")
+client = mqtt.Client("Lock-984323" + unique_number())
 client.username_pw_set(broker_auth()[0], broker_auth()[1])
 client.connect(MQTT_BROKER)
 
@@ -89,3 +95,4 @@ client.on_message = on_message
 
 # Producer thread loops continually looking for messages from the MQTT server
 client.loop_forever()
+
